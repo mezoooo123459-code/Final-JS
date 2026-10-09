@@ -47,7 +47,7 @@ async function getElements() {
                 <div class="price-quantity">
                     <h2>$ ${product.price}</h2>
                     <div class="buttons">
-                        <i class="fa-solid fa-minus"></i>
+                        <i onclick="decrement(${product.id})" class="fa-solid fa-minus"></i>
                         <div id="${product.id}" class="quantity">${currentQuantity}</div>
                         <i onclick="increment(${product.id})" class="fa-solid fa-plus"></i>
                     </div>
@@ -74,6 +74,21 @@ let increment = (id) => {
     }
 
     update(id);
+    localStorage.setItem("data", JSON.stringify(basket));
+};
+
+let decrement = (id) => {
+    let search = basket.find((x) => x.id === id);
+
+    if (search === undefined) return;
+    else if (search.item === 0) return;
+    else {
+        search.item -= 1;
+    }
+
+    update(id);
+    
+    basket = basket.filter((x) => x.item !== 0);
     localStorage.setItem("data", JSON.stringify(basket));
 };
 
